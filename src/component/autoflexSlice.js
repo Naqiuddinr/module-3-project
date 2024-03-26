@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { combineReducers, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
@@ -26,17 +26,30 @@ export const saveBooking = createAsyncThunk(
 );
 
 
-const autoflexSlice = createSlice({
+const bookingsSlice = createSlice({
     name: "bookings",
-    initialState: { bookings: [], cars: [] },
+    initialState: { bookings: [] },
     extraReducers: (builder) => {
-        builder.addCase(fetchAllCar.fulfilled, (state, action) => {
-            state.cars = action.payload;
-        })
         builder.addCase(saveBooking.fulfilled, (state, action) => {
             state.bookings = [...state.bookings, action.payload];
         })
     }
 });
 
-export default autoflexSlice.reducer;
+const carsSlice = createSlice({
+    name: "cars",
+    initialState: { cars: [] },
+    extraReducers: (builder) => {
+        builder.addCase(fetchAllCar.fulfilled, (state, action) => {
+            state.cars = action.payload;
+        })
+    }
+})
+
+
+const rootReducer = combineReducers({
+    bookings: bookingsSlice.reducer,
+    cars: carsSlice.reducer
+})
+
+export { bookingsSlice, carsSlice, rootReducer };

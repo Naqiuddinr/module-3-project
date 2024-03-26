@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import autoflexReducer from './component/autoflexSlice'
+import { rootReducer } from "./component/autoflexSlice";
+
 
 
 export default configureStore({
-    reducer: {
-        bookings: autoflexReducer,
-    }
+    reducer: rootReducer
 })

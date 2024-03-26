@@ -1,15 +1,24 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import { Col, Container, Row } from "react-bootstrap";
-import { CarCollection } from "./Database";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllCar } from "./autoflexSlice";
+
+
 
 
 export default function ItemCards() {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    function handleBooking({ id }) {
-        navigate(`/booking/${id}`)
+    useEffect(() => {
+        dispatch(fetchAllCar())
+    }, [dispatch])
+
+    function handleBooking({ car_id }) {
+        navigate(`/booking/${car_id}`)
     }
 
     return (
@@ -23,6 +32,10 @@ export default function ItemCards() {
 
 
 function CardTemplate({ handleBooking }) {
+
+    const CarCollection = useSelector((state) => state.cars.cars)
+
+    console.log(CarCollection)
 
     return CarCollection.map((car) => {
 
@@ -53,7 +66,7 @@ function CardTemplate({ handleBooking }) {
                         <Col className="text-end">
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
-                                    RM{car.hourlyRate}
+                                    RM{car.hourly_rate}
                                     <Typography variant="body2" color="text.secondary">
                                         /Hour
                                     </Typography>

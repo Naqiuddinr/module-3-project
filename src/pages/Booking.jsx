@@ -1,10 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { CarCollection } from "../component/Database";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../component/AuthProvider";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveBooking } from "../component/autoflexSlice";
 
 
@@ -16,11 +15,13 @@ export default function Booking() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!currentUser) {
+        if (currentUser === null) {
             alert("NOT SIGNED IN")
             navigate('/login')
         }
     })
+
+    console.log(currentUser)
 
     const [startDate, setStartDate] = useState(null)
     const [endDate, setEndDate] = useState(null)
@@ -36,15 +37,17 @@ export default function Booking() {
     const timeDifference = endBookDate.getTime() - startBookDate.getTime();
     const hoursDifference = Math.ceil(timeDifference / (1000 * 60 * 60));
 
-    const carList = CarCollection;
-    const carBooking = carList.find((car) => car.id == id);
-    const totalPrice = carBooking.hourlyRate * hoursDifference;
+    const carList = useSelector((state) => state.cars.cars);
+    console.log(carList)
+    const carBooking = carList.find((car) => car.car_id == id);
+    console.log(carBooking)
+    const totalPrice = carBooking.hourly_rate * hoursDifference;
 
     function handleBooking() {
 
         const bookingData = {
             user_id: currentUser.uid,
-            car_id: carBooking.id,
+            car_id: carBooking.car_id,
             start_date: convertedStartBookDate,
             start_time: convertedStartBookTime,
             end_date: convertedEndBookDate,
