@@ -1,12 +1,14 @@
 
+//ALL THESE DATA WERE ONLY USED AND SAMPLE DURING DEVELOPING STAGE
+//DEPLOYED PROJECT ARE USING FIREBASE/FIRESTORE AND RDBMS
 
 export const CarCollection = [
     {
         id: 1,
         imageUrl: "https://d3ah7cvs7m2c1a.cloudfront.net/Honda_BR-V/car015_detail1.png",
-        "brand": "Honda",
-        "model": "Honday BR-V",
-        "hourlyRate": "15.00"
+        brand: "Honda",
+        model: "Honda BR-V",
+        hourlyRate: 15
     },
     {
         id: 2,

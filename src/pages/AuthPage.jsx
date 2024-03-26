@@ -125,9 +125,9 @@ export default function AuthPage() {
                             <br />
                             <Form.Group>
                                 {toggleAuth === "login" ? (
-                                    <Form.Text className="text-muted">Don&apos;t have an account? Sign up <a href="" onClick={toggleSignup}>here</a></Form.Text>
+                                    <Form.Text className="text-muted">Don&apos;t have an account? Sign up <a style={{ color: "blue", cursor: "pointer" }} onClick={toggleSignup}>here</a></Form.Text>
                                 ) : (
-                                    <Form.Text className="text-muted">Already have an account? Sign in <a href="" onClick={toggleLogin}>here</a></Form.Text>
+                                    <Form.Text className="text-muted">Already have an account? Sign in <a style={{ color: "blue", cursor: "pointer" }} onClick={toggleLogin}>here</a></Form.Text>
                                 )}
 
                             </Form.Group>

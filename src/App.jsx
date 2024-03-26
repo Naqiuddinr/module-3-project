@@ -9,6 +9,8 @@ import AuthPage from "./pages/AuthPage";
 import { getAuth } from "firebase/auth";
 import Booking from "./pages/Booking";
 import AuthProvider from './component/AuthProvider'
+import store from "./store";
+import { Provider } from "react-redux";
 
 
 function Layout() {
@@ -56,20 +58,23 @@ function Layout() {
 export default function App() {
   return (
     <AuthProvider>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<AuthPage />} />
-            <Route path="/" element={<Layout />} >
-              <Route index element={<Home />} />
-              <Route path="/booking/:id" element={<Booking />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="*" element={<ErrorPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </LocalizationProvider>
+      <Provider store={store}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<AuthPage />} />
+              <Route path="/" element={<Layout />} >
+                <Route index element={<Home />} />
+                <Route path="/booking/:id" element={<Booking />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="*" element={<ErrorPage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </LocalizationProvider>
+      </Provider>
     </AuthProvider>
+
 
   )
 }
