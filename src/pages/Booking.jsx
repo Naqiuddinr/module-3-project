@@ -45,6 +45,11 @@ export default function Booking() {
 
     function handleBooking() {
 
+        if (totalPrice <= 0) {
+            alert("Please check your dates!")
+            return
+        }
+
         const bookingData = {
             user_id: currentUser.uid,
             car_id: carBooking.car_id,
@@ -56,6 +61,7 @@ export default function Booking() {
         }
 
         dispatch(saveBooking(bookingData))
+        navigate("/dashboard")
     }
 
     if (!carBooking) {
@@ -72,7 +78,7 @@ export default function Booking() {
                 <Row className="mt-5" >
                     <Col>
                         <Image
-                            src={carBooking.imageUrl}
+                            src={carBooking.imageurl}
                             style={{ width: "600px", border: "1px solid #d9d9d9", borderRadius: "30px" }}
                         />
                     </Col>

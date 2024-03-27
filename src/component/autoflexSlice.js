@@ -4,6 +4,18 @@ import axios from "axios";
 
 const API_URL = 'https://f83c5890-a46c-48d4-ac93-9163a3f59c3f-00-1g1snjyottvwx.kirk.replit.dev';
 
+//ASYNC THUNK FOR USER SIGNUP
+
+export const sendUserDataToBackend = createAsyncThunk(
+    "users/sendUserDataToBackend",
+    async (newUserData) => {
+
+        const response = await axios.post(`${API_URL}/users`, newUserData);
+
+        return response.json();
+    }
+)
+
 //ASYNC THUNK FOR CARS
 
 export const fetchAllCar = createAsyncThunk(

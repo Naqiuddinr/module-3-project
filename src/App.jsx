@@ -2,7 +2,7 @@ import { BrowserRouter, Outlet, Route, Routes, useNavigate } from "react-router-
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import ErrorPage from "./pages/ErrorPage";
-import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
+import { Container, Nav, NavDropdown, Navbar, Toast, ToastContainer } from "react-bootstrap";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import AuthPage from "./pages/AuthPage";
@@ -11,6 +11,7 @@ import Booking from "./pages/Booking";
 import AuthProvider from './component/AuthProvider'
 import store from "./store";
 import { Provider } from "react-redux";
+import { useState } from "react";
 
 
 function Layout() {
@@ -18,9 +19,12 @@ function Layout() {
   const auth = getAuth();
   const navigate = useNavigate();
 
+  const [show, setShow] = useState(false)
+
   function handleLogout() {
     auth.signOut();
     console.log("signed out")
+    setShow(true)
     navigate("/")
   }
 
@@ -50,6 +54,21 @@ function Layout() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <ToastContainer
+        position="top-center"
+        style={{ zIndex: 1, marginTop: "30px" }}
+      >
+        <Toast
+          onClose={() => setShow(false)}
+          show={show}
+          delay={4000}
+          autohide>
+          <Toast.Header>
+            <strong className="me-auto">AutoFlex</strong>
+          </Toast.Header>
+          <Toast.Body>Signed out completed</Toast.Body>
+        </Toast>
+      </ToastContainer>
       <Outlet />
     </>
 
@@ -58,23 +77,25 @@ function Layout() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Provider store={store}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/login" element={<AuthPage />} />
-              <Route path="/" element={<Layout />} >
-                <Route index element={<Home />} />
-                <Route path="/booking/:id" element={<Booking />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="*" element={<ErrorPage />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </LocalizationProvider>
-      </Provider>
-    </AuthProvider>
+    <>
+      <AuthProvider>
+        <Provider store={store}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/login" element={<AuthPage />} />
+                <Route path="/" element={<Layout />} >
+                  <Route index element={<Home />} />
+                  <Route path="/booking/:id" element={<Booking />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="*" element={<ErrorPage />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </LocalizationProvider>
+        </Provider>
+      </AuthProvider>
+    </>
 
 
   )

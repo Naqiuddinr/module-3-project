@@ -4,7 +4,6 @@ import ItemCards from "../component/ItemCards";
 
 export default function Home() {
 
-
     return (
         <>
             <Container style={{ borderBottom: "1px solid #d9d9d9" }}>

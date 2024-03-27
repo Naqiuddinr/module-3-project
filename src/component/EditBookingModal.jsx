@@ -37,13 +37,10 @@ export default function EditBookingModal({ showEditModal, handleCloseEditModal, 
     console.log(booking)
 
     function handleEditBooking() {
-        console.log(convertedNewEditStartDate)
-        console.log(convertedStartBookTime)
-        console.log(convertedEndBookDate)
-        console.log(convertedEndBookTime)
-        console.log(newTotalPrice)
-        console.log(booking.booking_id)
 
+        if (newTotalPrice <= 0) {
+            alert("Please check your dates")
+        }
         const newBookingData = {
             start_date: convertedNewEditStartDate,
             start_time: convertedStartBookTime,

@@ -45,7 +45,7 @@ function CardTemplate({ handleBooking }) {
                     <Row>
                         <CardMedia
                             sx={{ height: 140 }}
-                            image={car.imageUrl}
+                            image={car.imageurl}
                             title={car.model}
                         />
                     </Row>

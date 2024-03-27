@@ -4,6 +4,8 @@ import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmail
 
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { sendUserDataToBackend } from "../component/autoflexSlice";
 
 export default function AuthPage() {
 
@@ -11,6 +13,8 @@ export default function AuthPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("")
+
+    const dispatch = useDispatch();
 
     function toggleSignup() {
         setToggleAuth("signup")
@@ -31,7 +35,15 @@ export default function AuthPage() {
             setEmail("")
             setPassword("")
             setToggleAuth("login")
-            console.log("Succesfully signup")
+
+            const newUserData = {
+                firebase_uid: auth.currentUser.uid,
+                email: auth.currentUser.email
+            }
+
+            dispatch(sendUserDataToBackend(newUserData));
+            alert("Succesfully signup")
+
         } catch (err) {
             if (err.code === 'auth/weak-password') {
                 setErrorMessage("Password need to be at least 6 characters")
