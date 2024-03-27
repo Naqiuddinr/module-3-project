@@ -29,11 +29,40 @@ export const saveBooking = createAsyncThunk(
     }
 );
 
+//ASYNC THUNK TO FETCH ALL BOOKINGS BY A USER
+
 export const fetchBookingsByUser = createAsyncThunk(
     "bookings/fetchBookingsByUser",
     async (user_id) => {
 
         const response = await axios.get(`${API_URL}/booking/${user_id}`);
+
+        return response.data;
+    }
+)
+
+//ASYNC THUNK TO DELETE A BOOKING BY BOOKING_ID
+
+export const deleteBookingById = createAsyncThunk(
+    "bookings/deleteBookingById",
+    async (booking_id) => {
+
+        await axios.delete(`${API_URL}/booking/${booking_id}`)
+
+        return { booking_id }
+
+    }
+)
+
+//ASYNC THUNK TO EDIT A BOOKING BY BOOKING_ID
+
+export const updateBookingByBookId = createAsyncThunk(
+    "bookings/updateBookingByBookId",
+    async (newBookingData) => {
+
+        const { booking_id } = newBookingData
+
+        const response = await axios.put(`${API_URL}/booking/${booking_id}`, newBookingData);
 
         return response.data;
     }
@@ -50,6 +79,16 @@ const bookingsSlice = createSlice({
         })
         builder.addCase(fetchBookingsByUser.fulfilled, (state, action) => {
             state.bookings = action.payload;
+        })
+        builder.addCase(deleteBookingById.fulfilled, (state, action) => {
+            state.bookings = state.bookings.filter((booking) => booking.booking_id !== action.payload.booking_id);
+        })
+        builder.addCase(updateBookingByBookId.fulfilled, (state, action) => {
+            const updatedBooking = action.payload[0];
+            const index = state.bookings.findIndex(booking => booking.booking_id === updatedBooking.booking_id);
+            if (index !== -1) {
+                state.bookings[index] = updatedBooking;
+            }
         })
     }
 });
