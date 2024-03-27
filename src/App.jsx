@@ -38,6 +38,7 @@ function Layout() {
               <Nav.Link href="#">Scooter</Nav.Link>
             </Nav>
             <Nav>
+              <Nav.Link href="/dashboard">Bookings</Nav.Link>
               <NavDropdown title="Account" id="basic-nav-dropdown" align="end">
                 <NavDropdown.Item href="#">Sign Up</NavDropdown.Item>
                 <NavDropdown.Item href="/login">Login</NavDropdown.Item>

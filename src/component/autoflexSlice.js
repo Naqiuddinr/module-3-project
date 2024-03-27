@@ -4,6 +4,8 @@ import axios from "axios";
 
 const API_URL = 'https://f83c5890-a46c-48d4-ac93-9163a3f59c3f-00-1g1snjyottvwx.kirk.replit.dev';
 
+//ASYNC THUNK FOR CARS
+
 export const fetchAllCar = createAsyncThunk(
     "cars/fetchAllCar",
     async () => {
@@ -12,6 +14,8 @@ export const fetchAllCar = createAsyncThunk(
         return response.json();
     }
 )
+
+//ASYNC THUNK FOR BOOKINGS
 
 export const saveBooking = createAsyncThunk(
     "bookings/saveBooking",
@@ -25,6 +29,17 @@ export const saveBooking = createAsyncThunk(
     }
 );
 
+export const fetchBookingsByUser = createAsyncThunk(
+    "bookings/fetchBookingsByUser",
+    async (user_id) => {
+
+        const response = await axios.get(`${API_URL}/booking/${user_id}`);
+
+        return response.data;
+    }
+)
+
+//REDUX SLICES
 
 const bookingsSlice = createSlice({
     name: "bookings",
@@ -32,6 +47,9 @@ const bookingsSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(saveBooking.fulfilled, (state, action) => {
             state.bookings = [...state.bookings, action.payload];
+        })
+        builder.addCase(fetchBookingsByUser.fulfilled, (state, action) => {
+            state.bookings = action.payload;
         })
     }
 });
