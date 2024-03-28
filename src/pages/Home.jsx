@@ -1,4 +1,4 @@
-import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
+import { Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import ItemCards from "../component/ItemCards";
 import { useState } from "react";
 
@@ -6,7 +6,6 @@ import { useState } from "react";
 export default function Home() {
 
     const [searchBrand, setSearchBrand] = useState("");
-
 
     return (
         <>

@@ -12,6 +12,9 @@ import AuthProvider from './component/AuthProvider'
 import store from "./store";
 import { Provider } from "react-redux";
 import { useState } from "react";
+import AdminHome from "./pages/adminPages/AdminHome";
+import AdminInventory from "./pages/adminPages/AdminInventory";
+
 
 
 function Layout() {
@@ -35,20 +38,13 @@ function Layout() {
           <Navbar.Brand href="/" className="d-inline-block align-top">AutoFlex</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="#">Cars</Nav.Link>
-              <Nav.Link href="#">Motorcycles</Nav.Link>
-              <Nav.Link href="#">Bikes</Nav.Link>
-              <Nav.Link href="#">Scooter</Nav.Link>
-            </Nav>
-            <Nav>
+            <Nav className="ms-auto">
               <Nav.Link href="/dashboard">Bookings</Nav.Link>
               <NavDropdown title="Account" id="basic-nav-dropdown" align="end">
-                <NavDropdown.Item href="#">Sign Up</NavDropdown.Item>
                 <NavDropdown.Item href="/login">Login</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/dashboard">Admin</NavDropdown.Item>
-                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                <NavDropdown.Item href="/admin">Admin</NavDropdown.Item>
+                <NavDropdown.Item style={{ color: "red" }} onClick={handleLogout}>Logout</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
@@ -88,6 +84,8 @@ export default function App() {
                   <Route index element={<Home />} />
                   <Route path="/booking/:id" element={<Booking />} />
                   <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/admin" element={<AdminHome />} />
+                  <Route path="/admin/inventory" element={<AdminInventory />} />
                   <Route path="*" element={<ErrorPage />} />
                 </Route>
               </Routes>

@@ -1,8 +1,10 @@
 import { combineReducers, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { storage } from "../firebase"
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage"
 
 
-const API_URL = 'https://f83c5890-a46c-48d4-ac93-9163a3f59c3f-00-1g1snjyottvwx.kirk.replit.dev';
+const API_URL = import.meta.env.VITE_API_URL
 
 //ASYNC THUNK FOR USER SIGNUP
 
@@ -27,7 +29,22 @@ export const fetchAllCar = createAsyncThunk(
     }
 )
 
-//ASYNC THUNK FOR BOOKINGS
+export const sendNewCarDataToBackend = createAsyncThunk(
+    "cars/sendNewCarDataToBackend",
+    async (newCarData) => {
+
+        const { brand, model, hourly_rate, imageFile } = newCarData;
+        const storeRef = ref(storage, `cars/${imageFile.name}`);
+        const imageResponse = await uploadBytes(storeRef, imageFile);
+        const imageurl = await getDownloadURL(imageResponse.ref);
+
+        const response = await axios.post(`${API_URL}/cars`, { brand, model, hourly_rate, imageurl });
+
+        return response.data;
+    }
+);
+
+//ASYNC THUNK FOR SAVE BOOKINGS
 
 export const saveBooking = createAsyncThunk(
     "bookings/saveBooking",
