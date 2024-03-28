@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
+import { Button, Col, Container, Form, Row, Toast, ToastContainer } from "react-bootstrap";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ export default function AuthPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("")
+    const [show, setShow] = useState(false)
 
     const dispatch = useDispatch();
 
@@ -28,6 +29,8 @@ export default function AuthPage() {
 
     const navigate = useNavigate();
 
+    const provider = new GoogleAuthProvider();
+
     async function handleSignup(e) {
         e.preventDefault();
         try {
@@ -42,7 +45,7 @@ export default function AuthPage() {
             }
 
             dispatch(sendUserDataToBackend(newUserData));
-            alert("Succesfully signup")
+            setShow(true)
 
         } catch (err) {
             if (err.code === 'auth/weak-password') {
@@ -62,6 +65,15 @@ export default function AuthPage() {
         } catch (error) {
             console.error(error)
             setErrorMessage("Wrong email/password, please check and try again")
+        }
+    }
+
+    async function handleGoogleLogin(e) {
+        e.preventDefault();
+        try {
+            await signInWithPopup(auth, provider);
+        } catch (err) {
+            console.error(err);
         }
     }
 
@@ -144,12 +156,31 @@ export default function AuthPage() {
 
                             </Form.Group>
 
-                            <Button className="rounded-pill mt-5" variant="outline-secondary" style={{ width: "250px" }}>
+                            <Button
+                                className="rounded-pill mt-5"
+                                variant="outline-secondary"
+                                style={{ width: "250px" }}
+                                onClick={handleGoogleLogin}>
                                 <i className="bi bi-google"></i>  Login with Google Account
                             </Button>
                         </Form>
                     </Col>
                 </Row>
+                <ToastContainer
+                    position="top-center"
+                    style={{ zIndex: 1, marginTop: "30px" }}
+                >
+                    <Toast
+                        onClose={() => setShow(false)}
+                        show={show}
+                        delay={4000}
+                        autohide>
+                        <Toast.Header>
+                            <strong className="me-auto">AutoFlex</strong>
+                        </Toast.Header>
+                        <Toast.Body>Resgistration completed! Please Login to start booking</Toast.Body>
+                    </Toast>
+                </ToastContainer>
             </Container>
         </>
     )

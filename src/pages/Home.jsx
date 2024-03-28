@@ -17,7 +17,7 @@ export default function Home() {
                 <Row className="d-flex justify-content-center text-center my-4">
                     <InputGroup size="lg" className="mb-5" style={{ width: "900px" }}>
                         <Form.Control
-                            placeholder="Brand / Model"
+                            placeholder="Search by Brands"
                         />
                         <Button variant="outline-secondary" id="button-addon2">
                             Find Wheels

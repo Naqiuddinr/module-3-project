@@ -5,12 +5,14 @@ import { AuthContext } from "../component/AuthProvider";
 import { deleteBookingById, fetchAllCar, fetchBookingsByUser } from "../component/autoflexSlice";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import EditBookingModal from "../component/EditBookingModal";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Dashboard() {
 
     const { currentUser } = useContext(AuthContext);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const user_id = currentUser ? currentUser.uid : "missing";
     console.log(user_id)
 
@@ -18,6 +20,13 @@ export default function Dashboard() {
         dispatch(fetchBookingsByUser(user_id));
         dispatch(fetchAllCar());
     }, [dispatch, user_id])
+
+    useEffect(() => {
+        if (currentUser === null) {
+            alert("NOT SIGNED IN")
+            navigate('/login')
+        }
+    })
 
     const bookingList = useSelector((state) => state.bookings.bookings);
 

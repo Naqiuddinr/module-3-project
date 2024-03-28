@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../component/AuthProvider";
-import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import { Button, Col, Container, Image, Row, Toast, ToastContainer } from "react-bootstrap";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { useDispatch, useSelector } from "react-redux";
 import { saveBooking } from "../component/autoflexSlice";
@@ -25,6 +25,7 @@ export default function Booking() {
 
     const [startDate, setStartDate] = useState(null)
     const [endDate, setEndDate] = useState(null)
+    const [show, setShow] = useState(false)
 
     const startBookDate = new Date(startDate)
     const convertedStartBookDate = `${startBookDate.getFullYear()}-${startBookDate.getMonth() + 1}-${startBookDate.getDate()}`;
@@ -61,7 +62,10 @@ export default function Booking() {
         }
 
         dispatch(saveBooking(bookingData))
-        navigate("/dashboard")
+        setShow(true)
+        setTimeout(() => {
+            navigate("/dashboard")
+        }, 3500)
     }
 
     if (!carBooking) {
@@ -101,6 +105,21 @@ export default function Booking() {
                         <Button variant="outline-success" onClick={handleBooking}>Proceed Booking</Button>
                     </Col>
                 </Row>
+                <ToastContainer
+                    position="top-center"
+                    style={{ zIndex: 1, marginTop: "30px" }}
+                >
+                    <Toast
+                        onClose={() => setShow(false)}
+                        show={show}
+                        delay={3000}
+                        autohide>
+                        <Toast.Header>
+                            <strong className="me-auto">AutoFlex</strong>
+                        </Toast.Header>
+                        <Toast.Body>Booking completed! Redirecting to your dashboard!</Toast.Body>
+                    </Toast>
+                </ToastContainer>
             </Container>
         </>
     )
