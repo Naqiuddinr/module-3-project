@@ -1,8 +1,12 @@
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import ItemCards from "../component/ItemCards";
+import { useState } from "react";
 
 
 export default function Home() {
+
+    const [searchBrand, setSearchBrand] = useState("");
+
 
     return (
         <>
@@ -18,14 +22,13 @@ export default function Home() {
                     <InputGroup size="lg" className="mb-5" style={{ width: "900px" }}>
                         <Form.Control
                             placeholder="Search by Brands"
+                            value={searchBrand}
+                            onChange={(e) => setSearchBrand(e.target.value)}
                         />
-                        <Button variant="outline-secondary" id="button-addon2">
-                            Find Wheels
-                        </Button>
                     </InputGroup>
                 </Row>
             </Container>
-            <ItemCards />
+            <ItemCards searchBrand={searchBrand} />
         </>
     )
 }

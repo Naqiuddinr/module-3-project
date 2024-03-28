@@ -8,10 +8,11 @@ import { fetchAllCar } from "./autoflexSlice";
 
 
 
-export default function ItemCards() {
+export default function ItemCards({ searchBrand }) {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const CarCollection = useSelector((state) => state.cars.cars)
 
     useEffect(() => {
         dispatch(fetchAllCar())
@@ -21,23 +22,25 @@ export default function ItemCards() {
         navigate(`/booking/${car_id}`)
     }
 
+    const filteredCars = searchBrand
+        ? CarCollection.filter(car => car.brand.toLowerCase().includes(searchBrand.toLowerCase()))
+        : CarCollection
+
     return (
         <Container className="mt-4">
             <Row className="my-4">
-                <CardTemplate handleBooking={handleBooking} />
+                <CardTemplate cars={filteredCars} handleBooking={handleBooking} />
             </Row>
         </Container>
     )
 }
 
 
-function CardTemplate({ handleBooking }) {
+function CardTemplate({ cars, handleBooking }) {
 
-    const CarCollection = useSelector((state) => state.cars.cars)
 
-    console.log(CarCollection)
 
-    return CarCollection.map((car) => {
+    return cars.map((car) => {
 
         return (
             <Col key={car.id} md={3} style={{ marginBottom: "30px" }}>
