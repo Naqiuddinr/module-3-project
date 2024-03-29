@@ -101,7 +101,15 @@ export default function Booking() {
                             value={endDate}
                             onChange={(e) => setEndDate(e)}
                         />
-                        <h3 className="mt-5">Total price: RM {totalPrice}</h3>
+                        <h3 className="mt-5">
+                            Total price: RM
+                            {totalPrice <= 0 ? (
+                                0
+                            ) : (
+                                totalPrice
+                            )
+                            }
+                        </h3>
                         <Button variant="outline-success" onClick={handleBooking}>Proceed Booking</Button>
                     </Col>
                 </Row>
