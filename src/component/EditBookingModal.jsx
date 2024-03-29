@@ -73,7 +73,13 @@ export default function EditBookingModal({ showEditModal, handleCloseEditModal, 
                     value={newEndDate}
                     onChange={(e) => setNewEndDate(e)} /></p>
                 <br />
-                <p>Your new total price is: {newTotalPrice}</p>
+                <p>Your new total price is:
+                    {newTotalPrice <= 0 ? (
+                        0
+                    ) : (
+                        newTotalPrice
+                    )}
+                </p>
                 <Button className="mt-3" variant="warning" onClick={handleEditBooking}>Confirm update</Button>
             </Modal.Body>
         </Modal>
