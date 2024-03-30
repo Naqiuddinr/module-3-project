@@ -29,6 +29,8 @@ export const fetchAllCar = createAsyncThunk(
     }
 )
 
+//ASYNC THUNK FOR ADDING NEW CARS TO BACK END
+
 export const sendNewCarDataToBackend = createAsyncThunk(
     "cars/sendNewCarDataToBackend",
     async (newCarData) => {
@@ -43,6 +45,44 @@ export const sendNewCarDataToBackend = createAsyncThunk(
         return response.data;
     }
 );
+
+//ASYNC THUNK FOR DELETING A CAR
+
+export const deleteCarById = createAsyncThunk(
+    "cars/deleteCarById",
+    async (car_id) => {
+
+        await axios.delete(`${API_URL}/cars/${car_id}`)
+
+        return { car_id }
+    }
+)
+
+// ASYNC THUNK TO CHANGE HOURLY RATE BY CAR ID
+
+export const changeHourRateByCarId = createAsyncThunk(
+    "cars/changeHourRateByCarId",
+    async (newHourRateData) => {
+
+        const response = await axios.put(`${API_URL}/cars`, newHourRateData);
+
+        return response.data;
+    }
+)
+
+//ASYNC THUNK TO FETCH ALL BOOKINGS
+
+export const fetchAllBookings = createAsyncThunk(
+    "bookings/fetchAllBookings",
+    async () => {
+
+        const response = await axios.get(`${API_URL}/booking`);
+
+        console.log(response.data)
+
+        return response.data
+    }
+)
 
 //ASYNC THUNK FOR SAVE BOOKINGS
 
@@ -106,6 +146,9 @@ const bookingsSlice = createSlice({
         builder.addCase(saveBooking.fulfilled, (state, action) => {
             state.bookings = [...state.bookings, action.payload];
         })
+        builder.addCase(fetchAllBookings.fulfilled, (state, action) => {
+            state.bookings = action.payload;
+        })
         builder.addCase(fetchBookingsByUser.fulfilled, (state, action) => {
             state.bookings = action.payload;
         })
@@ -128,6 +171,16 @@ const carsSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchAllCar.fulfilled, (state, action) => {
             state.cars = action.payload;
+        })
+        builder.addCase(deleteCarById.fulfilled, (state, action) => {
+            state.cars = state.cars.filter((car) => car.car_id !== action.payload.car_id);
+        })
+        builder.addCase(changeHourRateByCarId.fulfilled, (state, action) => {
+            const updatedCar = action.payload[0];
+            const index = state.cars.findIndex(car => car.car_id === updatedCar.car_id);
+            if (index !== -1) {
+                state.cars[index] = updatedCar;
+            }
         })
     }
 })

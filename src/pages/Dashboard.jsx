@@ -74,8 +74,10 @@ export default function Dashboard() {
                                     <TableCell>{row.total_price}</TableCell>
                                     <TableCell>{row.created_at}</TableCell>
                                     <TableCell align="center">
-                                        <Button className="me-3" size="sm" variant="light" onClick={() => handleShowEditModal(row)}>edit</Button>
-                                        <Button size="sm" variant="outline-danger" onClick={() => handleBookingDelete(row)}>delete</Button>
+                                        <Button className="me-3" size="sm" variant="light" onClick={() => handleShowEditModal(row)}>Edit</Button>
+                                        <Button size="sm" variant="outline-danger" onClick={() => handleBookingDelete(row)}>
+                                            <i className="bi bi-trash3-fill"></i>
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

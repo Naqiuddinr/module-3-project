@@ -14,6 +14,7 @@ import { Provider } from "react-redux";
 import { useState } from "react";
 import AdminHome from "./pages/adminPages/AdminHome";
 import AdminInventory from "./pages/adminPages/AdminInventory";
+import AdminBooking from "./pages/adminPages/AdminBooking";
 
 
 
@@ -86,6 +87,7 @@ export default function App() {
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/admin" element={<AdminHome />} />
                   <Route path="/admin/inventory" element={<AdminInventory />} />
+                  <Route path="/admin/booking" element={<AdminBooking />} />
                   <Route path="*" element={<ErrorPage />} />
                 </Route>
               </Routes>
