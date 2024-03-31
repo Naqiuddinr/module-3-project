@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthContext } from "../component/AuthProvider";
-import { deleteBookingById, fetchAllCar, fetchBookingsByUser } from "../component/autoflexSlice";
+import { fetchAllCar, fetchBookingsByUser } from "../component/autoflexSlice";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import EditBookingModal from "../component/EditBookingModal";
 import { useNavigate } from "react-router-dom";
+import DeleteBookingModal from "../component/DeleteBookingModal";
 
 
 export default function Dashboard() {
@@ -34,19 +35,25 @@ export default function Dashboard() {
         console.log(bookingList)
     }, [bookingList])
 
-    function handleBookingDelete({ booking_id }) {
-        dispatch(deleteBookingById(booking_id))
-    }
-
     const [showEditModal, setShowEditModal] = useState(false);
     const [bookingToEdit, setBookingToEdit] = useState(null);
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [bookingToDelete, setBookingToDelete] = useState(null);
 
     function handleShowEditModal(row) {
         setBookingToEdit(row)
         setShowEditModal(true);
     }
 
+    function handleShowDeleteModal(row) {
+        setBookingToDelete(row);
+        setShowDeleteModal(true)
+    }
+
     const handleCloseEditModal = () => setShowEditModal(false);
+
+    const handleCloseDeleteModal = () => setShowDeleteModal(false);
 
     return (
         <>
@@ -75,7 +82,7 @@ export default function Dashboard() {
                                     <TableCell>{row.created_at}</TableCell>
                                     <TableCell align="center">
                                         <Button className="me-3" size="sm" variant="light" onClick={() => handleShowEditModal(row)}>Edit</Button>
-                                        <Button size="sm" variant="outline-danger" onClick={() => handleBookingDelete(row)}>
+                                        <Button size="sm" variant="outline-danger" onClick={() => handleShowDeleteModal(row)}>
                                             <i className="bi bi-trash3-fill"></i>
                                         </Button>
                                     </TableCell>
@@ -90,6 +97,11 @@ export default function Dashboard() {
                 showEditModal={showEditModal}
                 handleCloseEditModal={handleCloseEditModal}
                 booking={bookingToEdit}
+            />
+            <DeleteBookingModal
+                showDeleteModal={showDeleteModal}
+                handleCloseDeleteModal={handleCloseDeleteModal}
+                bookingToDelete={bookingToDelete}
             />
         </>
     )

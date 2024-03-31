@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { fetchAllBookings } from "../../component/autoflexSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import DeleteBookingAdminModal from "./DeleteBookingAdminModal";
 
 
 export default function AdminBooking() {
@@ -14,6 +15,16 @@ export default function AdminBooking() {
     }, [dispatch])
 
     const allBookings = useSelector((state) => state.bookings.bookings);
+
+    const [bookingToDelete, setBookingToDelete] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+    function handleShowDeleteModal(row) {
+        setBookingToDelete(row);
+        setShowDeleteModal(true);
+    }
+
+    const handleCloseDeleteModal = () => setShowDeleteModal(false)
 
     return (
         <>
@@ -49,7 +60,7 @@ export default function AdminBooking() {
                                         End: {row.end_date} at {row.end_time}
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button size="sm" className="me-3" variant="outline-danger">
+                                        <Button size="sm" className="me-3" variant="outline-danger" onClick={() => handleShowDeleteModal(row)}>
                                             <i className="bi bi-trash3-fill"></i>
                                         </Button>
                                     </TableCell>
@@ -59,6 +70,12 @@ export default function AdminBooking() {
                     </Table>
                 </TableContainer>
             </Container>
+            <DeleteBookingAdminModal
+                showDeleteModal={showDeleteModal}
+                handleCloseDeleteModal={handleCloseDeleteModal}
+                bookingToDelete={bookingToDelete}
+
+            />
         </>
     )
 }

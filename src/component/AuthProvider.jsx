@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react"
 import { auth } from "../firebase"
+import { Container, Spinner } from "react-bootstrap";
 
 export const AuthContext = createContext();
 
@@ -21,7 +22,13 @@ export default function AuthProvider({ children }) {
     const value = { currentUser }
 
     if (loading) {
-        return <div>Loading...</div>
+        return (
+            <Container
+                style={{ height: "100vh" }}
+                className="d-flex justify-content-center align-items-center">
+                <Spinner animation="border" />
+            </Container>
+        )
     }
 
     return (

@@ -15,7 +15,7 @@ export default function AdminHome() {
 
     useEffect(() => {
 
-        if (currentUser.uid !== import.meta.env.VITE_ADMIN_ID) {
+        if (currentUser === null || currentUser.uid !== import.meta.env.VITE_ADMIN_ID) {
             alert("Only AutoFlex admin can access this page")
             navigate("/")
         }
@@ -64,7 +64,7 @@ export default function AdminHome() {
                                 className="my-5" />
                             <Card.Body className="text-center">
                                 <Card.Title>Manage Booking</Card.Title>
-                                <Button variant="outline-warning" className="my-3" href="/admin/booking">In Progress</Button>
+                                <Button variant="outline-success" className="my-3" href="/admin/booking">Proceed</Button>
                             </Card.Body>
                         </Card>
                     </Col>
