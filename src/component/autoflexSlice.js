@@ -167,10 +167,11 @@ const bookingsSlice = createSlice({
 
 const carsSlice = createSlice({
     name: "cars",
-    initialState: { cars: [] },
+    initialState: { cars: [], loading: true },
     extraReducers: (builder) => {
         builder.addCase(fetchAllCar.fulfilled, (state, action) => {
             state.cars = action.payload;
+            state.loading = false;
         })
         builder.addCase(deleteCarById.fulfilled, (state, action) => {
             state.cars = state.cars.filter((car) => car.car_id !== action.payload.car_id);

@@ -1,5 +1,5 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ export default function ItemCards({ searchBrand }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const CarCollection = useSelector((state) => state.cars.cars)
+    const loading = useSelector((state) => state.cars.loading)
 
     useEffect(() => {
         dispatch(fetchAllCar())
@@ -28,6 +29,12 @@ export default function ItemCards({ searchBrand }) {
 
     return (
         <Container className="mt-4">
+            {loading && (
+                <Container
+                    className="mt-5 d-flex justify-content-center">
+                    <Spinner className="mt-5" animation="border" />
+                </Container>
+            )}
             <Row className="my-4">
                 <CardTemplate cars={filteredCars} handleBooking={handleBooking} />
             </Row>
