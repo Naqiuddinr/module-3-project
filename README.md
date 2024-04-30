@@ -1,8 +1,10 @@
-# React + Vite
+# AutoFlex (Car Rental Booking System) 📝
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Hi! AutoFlex is my first full-stack project that I build from scratch as part of my Coding Bootcamp requirement to graduate.
 
-Currently, two official plugins are available:
+AutoFlex utilised React.js and Node.js. This repo specifically store the code that I wrote for the front-end.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
++ If you want to see the back-end code, you can find it [here](https://github.com/Naqiuddinr/module-3-project-backend)
++ Tadel is also live hosted using vercel, you can try it out [here](https://module-3-project-naqiuddinr.vercel.app/)
+
+*Due to using the free version of Render(live host for backend), the app might take some time to load before you can see all the listed cars for rental.*
